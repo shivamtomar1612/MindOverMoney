@@ -1,0 +1,32 @@
+[
+  {
+    "id": "aarav",
+    "name": "Aarav",
+    "experience": "Beginner",
+    "riskTolerance": "Conservative",
+    "riskScore": 25,
+    "investmentHorizon": "5+ years",
+    "goal": "Long-term wealth creation",
+    "literacyScore": 42
+  },
+  {
+    "id": "riya",
+    "name": "Riya",
+    "experience": "Beginner",
+    "riskTolerance": "Moderate",
+    "riskScore": 50,
+    "investmentHorizon": "3–5 years",
+    "goal": "Wealth creation",
+    "literacyScore": 61
+  },
+  {
+    "id": "kabir",
+    "name": "Kabir",
+    "experience": "Intermediate",
+    "riskTolerance": "Aggressive",
+    "riskScore": 80,
+    "investmentHorizon": "5+ years",
+    "goal": "Growth",
+    "literacyScore": 74
+  }
+]

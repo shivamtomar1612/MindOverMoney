@@ -1,0 +1,162 @@
+[
+  {
+    "term": "P/E Ratio",
+    "category": "Valuation",
+    "simpleExplanation": "The price-to-earnings ratio compares a share's price with the profit earned for each share.",
+    "whyItMatters": "It offers a quick way to see how much investors are paying for a company's current earnings.",
+    "example": "A share priced at ₹200 with EPS of ₹10 has a P/E ratio of 20.",
+    "beginnerTakeaway": "A high or low P/E is not automatically good or bad; compare similar companies and consider growth and risk."
+  },
+  {
+    "term": "EPS",
+    "category": "Profitability",
+    "simpleExplanation": "Earnings per share is the company's profit divided across its outstanding shares.",
+    "whyItMatters": "It shows how much profit belongs to each share and is used in several valuation measures.",
+    "example": "If a company earns ₹100 crore and has 10 crore shares, its EPS is ₹10.",
+    "beginnerTakeaway": "Look for consistent EPS growth, but check whether it comes from the core business."
+  },
+  {
+    "term": "ROE",
+    "category": "Profitability",
+    "simpleExplanation": "Return on equity measures how efficiently a company uses shareholders' money to generate profit.",
+    "whyItMatters": "It helps compare management efficiency among companies in the same sector.",
+    "example": "A company earning ₹20 crore on ₹100 crore of shareholder equity has 20% ROE.",
+    "beginnerTakeaway": "Strong ROE is more useful when it is consistent and not driven by excessive debt."
+  },
+  {
+    "term": "ROCE",
+    "category": "Profitability",
+    "simpleExplanation": "Return on capital employed measures profit generated from both equity and long-term debt used by the business.",
+    "whyItMatters": "It is useful for understanding efficiency in businesses that need a lot of capital.",
+    "example": "If operating profit is ₹18 crore on ₹120 crore of capital employed, ROCE is 15%.",
+    "beginnerTakeaway": "Compare ROCE with peers and the company's own history rather than reading it alone."
+  },
+  {
+    "term": "Debt-to-Equity",
+    "category": "Financial Health",
+    "simpleExplanation": "This ratio compares money borrowed by a company with money invested by its shareholders.",
+    "whyItMatters": "More debt can increase growth in good times but also raises repayment pressure when business slows.",
+    "example": "Debt of ₹50 crore and equity of ₹100 crore gives a debt-to-equity ratio of 0.5.",
+    "beginnerTakeaway": "Acceptable debt levels vary by sector, so compare like with like."
+  },
+  {
+    "term": "Market Capitalization",
+    "category": "Company Basics",
+    "simpleExplanation": "Market capitalization is the total market value of all a company's shares.",
+    "whyItMatters": "It indicates company size and can help set expectations about stability and growth.",
+    "example": "Ten crore shares priced at ₹500 each create a market capitalization of ₹5,000 crore.",
+    "beginnerTakeaway": "Share price alone does not tell you whether a company is large or small."
+  },
+  {
+    "term": "Revenue",
+    "category": "Company Basics",
+    "simpleExplanation": "Revenue is the money a company earns from selling goods or services before expenses are deducted.",
+    "whyItMatters": "Growing revenue can show increasing demand, but it does not guarantee profit.",
+    "example": "Selling one lakh subscriptions at ₹500 each produces revenue of ₹5 crore.",
+    "beginnerTakeaway": "Check whether revenue growth is steady and whether profit grows with it."
+  },
+  {
+    "term": "Net Profit",
+    "category": "Profitability",
+    "simpleExplanation": "Net profit is what remains after operating costs, interest, taxes, and other expenses are paid.",
+    "whyItMatters": "It shows the final earnings available to the company and its shareholders.",
+    "example": "Revenue of ₹100 crore minus total expenses of ₹88 crore leaves ₹12 crore of net profit.",
+    "beginnerTakeaway": "Read the notes to check whether profit includes a one-time gain."
+  },
+  {
+    "term": "Profit Margin",
+    "category": "Profitability",
+    "simpleExplanation": "Profit margin shows what percentage of revenue becomes profit.",
+    "whyItMatters": "It reveals how well a company controls costs and converts sales into earnings.",
+    "example": "A ₹10 crore profit on ₹100 crore of revenue equals a 10% profit margin.",
+    "beginnerTakeaway": "Compare margins within the same industry and watch their direction over time."
+  },
+  {
+    "term": "Dividend Yield",
+    "category": "Valuation",
+    "simpleExplanation": "Dividend yield compares annual cash dividends per share with the share's market price.",
+    "whyItMatters": "It helps investors understand the cash income a share may provide relative to its price.",
+    "example": "A ₹5 annual dividend on a ₹250 share gives a 2% dividend yield.",
+    "beginnerTakeaway": "A very high yield can be temporary or signal stress; check whether the dividend is sustainable."
+  },
+  {
+    "term": "Beta",
+    "category": "Risk",
+    "simpleExplanation": "Beta estimates how strongly a share tends to move compared with the overall market.",
+    "whyItMatters": "It provides one view of market-related risk, though it cannot predict future moves.",
+    "example": "A beta of 1.3 suggests the share has historically moved more sharply than the market.",
+    "beginnerTakeaway": "Beta describes past relative movement, not the chance of permanent loss."
+  },
+  {
+    "term": "Volatility",
+    "category": "Risk",
+    "simpleExplanation": "Volatility describes how widely and frequently an investment's price moves.",
+    "whyItMatters": "Larger swings can make an investment harder to hold and may not suit a short time horizon.",
+    "example": "A share moving between ₹80 and ₹120 may be more volatile than one staying between ₹98 and ₹102.",
+    "beginnerTakeaway": "Price movement is only one kind of risk; also study the business and your time horizon."
+  },
+  {
+    "term": "CAGR",
+    "category": "Company Basics",
+    "simpleExplanation": "Compound annual growth rate is the steady yearly rate that would connect a starting value to an ending value.",
+    "whyItMatters": "It makes multi-year growth easier to compare, even when actual yearly returns varied.",
+    "example": "Growing from ₹100 to about ₹161 over five years is roughly a 10% CAGR.",
+    "beginnerTakeaway": "CAGR smooths the journey, so also look at the year-by-year changes."
+  },
+  {
+    "term": "Liquidity",
+    "category": "Risk",
+    "simpleExplanation": "Liquidity is how easily an investment can be bought or sold without causing a large price change.",
+    "whyItMatters": "Low liquidity can make it harder or more expensive to exit when needed.",
+    "example": "A widely traded large-company share is usually more liquid than a rarely traded small-company share.",
+    "beginnerTakeaway": "Check trading activity before assuming you can sell quickly at the displayed price."
+  },
+  {
+    "term": "Diversification",
+    "category": "Portfolio Basics",
+    "simpleExplanation": "Diversification means spreading money across different investments instead of relying on one.",
+    "whyItMatters": "Poor performance in one holding may have less impact when other holdings behave differently.",
+    "example": "Owning businesses across banking, technology, healthcare, and consumer goods is more diversified than owning only banks.",
+    "beginnerTakeaway": "Diversification can reduce concentration risk, but it cannot remove all market risk."
+  },
+  {
+    "term": "Bull Market",
+    "category": "Market Cycles",
+    "simpleExplanation": "A bull market is an extended period when prices broadly rise and investor confidence is strong.",
+    "whyItMatters": "Optimism can lift many assets and make risky decisions feel safer than they are.",
+    "example": "A broad index rising over many months while participation expands may be described as a bull market.",
+    "beginnerTakeaway": "Rising prices do not replace research or make valuation irrelevant."
+  },
+  {
+    "term": "Bear Market",
+    "category": "Market Cycles",
+    "simpleExplanation": "A bear market is a sustained period of broad price declines and weak investor confidence.",
+    "whyItMatters": "Falling markets test risk tolerance and can expose weak businesses or excessive debt.",
+    "example": "A broad index falling substantially from its recent high over several months may be called a bear market.",
+    "beginnerTakeaway": "A market decline is not automatically a reason to panic; revisit your goals, horizon, and facts."
+  },
+  {
+    "term": "Intrinsic Value",
+    "category": "Valuation",
+    "simpleExplanation": "Intrinsic value is an estimate of what an investment is worth based on its future cash generation and risks.",
+    "whyItMatters": "It encourages investors to separate business value from the price currently quoted by the market.",
+    "example": "Two analysts can use different growth assumptions and reach different intrinsic value estimates for the same company.",
+    "beginnerTakeaway": "Intrinsic value is an estimate, not a guaranteed correct price."
+  },
+  {
+    "term": "Balance Sheet",
+    "category": "Financial Statements",
+    "simpleExplanation": "A balance sheet lists what a company owns, what it owes, and the shareholders' remaining interest at a point in time.",
+    "whyItMatters": "It helps reveal debt, cash reserves, working capital, and overall financial strength.",
+    "example": "Assets of ₹150 crore minus liabilities of ₹90 crore leave shareholder equity of ₹60 crore.",
+    "beginnerTakeaway": "Look at how assets, debt, and cash change across several reporting periods."
+  },
+  {
+    "term": "Cash Flow",
+    "category": "Financial Statements",
+    "simpleExplanation": "Cash flow tracks actual cash entering and leaving a business through operations, investing, and financing.",
+    "whyItMatters": "A company can report accounting profit while struggling to collect cash.",
+    "example": "A profitable company may have weak operating cash flow if customers have not yet paid their bills.",
+    "beginnerTakeaway": "Healthy profit is more convincing when operating cash flow supports it over time."
+  }
+]

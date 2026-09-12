@@ -1,0 +1,27 @@
+{
+  "reportTitle": "Demonstration Financial Report",
+  "companyName": "Demo Manufacturing Ltd.",
+  "isDemonstration": true,
+  "disclaimer": "Fictional demonstration report — not real company data or investment advice.",
+  "periodLabel": "Illustrative FY 2025–26",
+  "metrics": {
+    "revenueGrowth": 14.8,
+    "profitGrowth": 18.6,
+    "debtGrowth": 27.4,
+    "operatingCashFlowGrowth": 9.3,
+    "profitMargin": 11.7,
+    "debtToEquity": 0.84
+  },
+  "positiveSignals": [
+    "Profit growth is faster than revenue growth, suggesting improving operating efficiency.",
+    "The illustrative profit margin has expanded from 10.9% to 11.7%.",
+    "Operating cash flow remains positive and continues to grow.",
+    "Revenue growth is spread across domestic and export segments in this fictional scenario."
+  ],
+  "risks": [
+    "Debt is growing faster than both revenue and operating cash flow.",
+    "Higher raw-material costs could put pressure on the recent margin improvement.",
+    "The fictional company depends on a small group of large customers.",
+    "Planned factory expansion may require additional borrowing before it generates revenue."
+  ]
+}
