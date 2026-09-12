@@ -6,6 +6,10 @@ Mind Over Money is an educational decision-support platform for first-time inves
 
 This application is not a brokerage, does not execute trades, and does not promise or guarantee returns.
 
+## Live project
+
+[Open the Mind Over Money project on Vercel](https://vercel.com/mind-over-money/mind-over-money)
+
 ## Stack
 
 - Next.js 16 with the App Router
