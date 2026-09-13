@@ -23,8 +23,16 @@ for (const table of ["profiles", "watchlists", "analyses", "paper_portfolios", "
 assert.match(migration, /auth\.uid\(\)/);
 assert.match(migration, /portfolio_transactions_own/);
 
+const chatMigration = readFileSync(new URL("../supabase/migrations/20260913000000_chat_history.sql", import.meta.url), "utf8");
+for (const table of ["chat_conversations", "chat_messages"]) {
+  assert.match(chatMigration, new RegExp(`create table if not exists public\\.${table}`));
+  assert.match(chatMigration, new RegExp(`alter table public\\.${table} enable row level security`));
+}
+assert.match(chatMigration, /auth\.uid\(\) = user_id/);
+assert.match(chatMigration, /chat_messages_own/);
+
 const envExample = readFileSync(new URL("../.env.example", import.meta.url), "utf8");
-for (const variable of ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY", "OPENAI_API_KEY", "FINANCIAL_API_KEY"]) {
+for (const variable of ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY", "OPENAI_API_KEY", "GEMINI_API_KEY", "FINANCIAL_API_KEY"]) {
   assert.match(envExample, new RegExp(`^${variable}=`, "m"));
 }
 

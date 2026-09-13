@@ -6,6 +6,8 @@ import type { ChatContext, ChatMessage } from "@/types/chat";
 
 export type FinancialChatbotController = {
   context: ChatContext | null;
+  title: string | null;
+  provider: ChatMessage["provider"] | null;
   isOpen: boolean;
   messages: ChatMessage[];
   isLoading: boolean;
@@ -15,6 +17,10 @@ export type FinancialChatbotController = {
   closeFinancialChatbot: () => void;
   sendMessage: (question: string) => Promise<void>;
   retryLastMessage: () => Promise<void>;
+  regenerateLastMessage: () => Promise<void>;
+  newChat: () => void;
+  clearConversation: () => Promise<void>;
+  stopGeneration: () => void;
 };
 
 export const FinancialChatbotContext = createContext<FinancialChatbotController | null>(null);

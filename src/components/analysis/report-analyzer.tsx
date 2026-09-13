@@ -19,8 +19,27 @@ export function ReportAnalyzer({ demoReport }: { demoReport: ReportAnalysis }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const { openFinancialChatbot } = useFinancialChatbot();
 
+  function reportContextData(current: ReportAnalysis | null): Record<string, unknown> {
+    if (!current) return {};
+    return {
+      company: current.companyName,
+      report: current.reportTitle,
+      period: current.periodLabel,
+      overallHealth: current.overallHealth,
+      revenue: current.revenue,
+      profitability: current.profitability,
+      cashFlow: current.cashFlow,
+      debt: current.debt,
+      margins: current.margins,
+      positiveSignals: current.positiveSignals,
+      risks: current.risks,
+      redFlags: current.redFlags,
+      source: current.source,
+    };
+  }
+
   function openReportSection(label: string, detail: string, data?: Record<string, unknown>) {
-    openFinancialChatbot({ type: "report", title: label, description: detail, data: { company: analysis?.companyName, report: analysis?.reportTitle, ...data }, userLevel: "Beginner" });
+    openFinancialChatbot({ type: "report", title: label, description: detail, data: { ...reportContextData(analysis), ...data }, userLevel: "Beginner" });
   }
 
   async function uploadReport(file: File) {
@@ -72,7 +91,7 @@ export function ReportAnalyzer({ demoReport }: { demoReport: ReportAnalysis }) {
             ["Revenue", analysis.revenue], ["Profitability", analysis.profitability], ["Cash Flow", analysis.cashFlow], ["Debt", analysis.debt], ["Margins", analysis.margins],
           ].map(([label, signal]) => <ReportRow key={String(label)} label={String(label)} signal={signal as ReportSignal} onAsk={() => openReportSection(String(label), (signal as ReportSignal).detail)} />)}</div>
 
-          <section className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_.8fr]"><div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">Executive summary</p><p className="mt-3 text-lg leading-8">{analysis.executiveSummary}</p><h3 className="mt-7 text-sm font-semibold">Beginner explanation</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">{analysis.beginnerExplanation}</p><div className="mt-4"><ChatbotButton label="Ask about this report" context={{ type: "report", title: "Executive Summary", description: analysis.executiveSummary, data: { company: analysis.companyName, report: analysis.reportTitle }, userLevel: "Beginner" }} /></div></div><div className="border-l-0 border-border lg:border-l lg:pl-8"><h3 className="text-sm font-semibold">Red flags</h3><BulletList items={analysis.redFlags} empty="No red flags were identified in the available report text." tone="warning" /><button type="button" onClick={() => openReportSection("Red Flags", analysis.redFlags.join(" "))} className="mt-4 text-sm font-medium text-primary hover:underline">Ask about red flags</button></div></section>
+          <section className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_.8fr]"><div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">Executive summary</p><p className="mt-3 text-lg leading-8">{analysis.executiveSummary}</p><h3 className="mt-7 text-sm font-semibold">Beginner explanation</h3><p className="mt-2 text-sm leading-7 text-muted-foreground">{analysis.beginnerExplanation}</p><div className="mt-4"><ChatbotButton label="Ask about this report" context={{ type: "report", title: "Executive Summary", description: analysis.executiveSummary, data: reportContextData(analysis), userLevel: "Beginner" }} /></div></div><div className="border-l-0 border-border lg:border-l lg:pl-8"><h3 className="text-sm font-semibold">Red flags</h3><BulletList items={analysis.redFlags} empty="No red flags were identified in the available report text." tone="warning" /><button type="button" onClick={() => openReportSection("Red Flags", analysis.redFlags.join(" "))} className="mt-4 text-sm font-medium text-primary hover:underline">Ask about red flags</button></div></section>
 
           <div className="mt-10 grid gap-8 border-t border-border pt-8 md:grid-cols-3"><ReportList title="Positive signals" items={analysis.positiveSignals} empty="No positive signals were identified." onAsk={() => openReportSection("Positive Signals", analysis.positiveSignals.join(" "))} /><ReportList title="Risks to review" items={analysis.risks} empty="No specific risks were identified." onAsk={() => openReportSection("Risks", analysis.risks.join(" "))} warning /><ReportList title="Questions to investigate" items={analysis.risks.slice(0, 3).map((risk) => `What evidence would confirm or reduce this concern: ${risk}`)} empty="Review the source report for missing context." /></div>
           <p className="mt-8 border-t border-border pt-5 text-xs leading-5 text-muted-foreground">{analysis.disclaimer} This tool simplifies reported information for learning and does not make investment recommendations.</p>

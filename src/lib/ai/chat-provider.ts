@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-import type { ChatContext, ChatMessage } from "../../types/chat";
+import type { ChatContext, ChatMessage, ChatProfileContext } from "../../types/chat";
 import { buildChatPrompt, CHAT_SYSTEM_PROMPT } from "./chat-prompts";
 
 export function isChatOpenAIAvailable(): boolean {
@@ -11,6 +11,7 @@ export async function chatWithOpenAI(
   context: ChatContext,
   messages: Array<Pick<ChatMessage, "role" | "content">>,
   question: string,
+  profile?: ChatProfileContext,
 ): Promise<string> {
   const apiKey = process.env.OPENAI_API_KEY?.trim();
   if (!apiKey) throw new Error("OpenAI is not configured");
@@ -19,7 +20,7 @@ export async function chatWithOpenAI(
   const response = await client.responses.create({
     model: process.env.OPENAI_MODEL?.trim() || "gpt-5-mini",
     instructions: CHAT_SYSTEM_PROMPT,
-    input: buildChatPrompt(context, messages, question),
+    input: buildChatPrompt(context, messages, question, profile),
     store: false,
   });
   const answer = response.output_text.trim();

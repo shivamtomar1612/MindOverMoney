@@ -17,7 +17,9 @@ export type { ExplainRequest, ExplainResponse } from "./ai";
 export type {
   ChatContext,
   ChatContextType,
+  ChatConversation,
   ChatMessage,
+  ChatProfileContext,
   ChatRequest,
   ChatResponse,
   ChatUserLevel,

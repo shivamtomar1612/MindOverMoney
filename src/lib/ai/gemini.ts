@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-import type { ChatContext, ChatMessage } from "@/types/chat";
+import type { ChatContext, ChatMessage, ChatProfileContext } from "@/types/chat";
 import { buildChatContext } from "./build-chat-context";
 import { buildChatSystemInstruction, buildGeminiChatPrompt } from "./chat-prompt";
 import { getGeminiModel, isGeminiAvailable } from "./gemini-status";
@@ -26,6 +26,7 @@ export async function chatWithGemini(
   context: ChatContext,
   messages: Array<Pick<ChatMessage, "role" | "content">>,
   question: string,
+  profile?: ChatProfileContext,
 ): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY?.trim();
   if (!apiKey || !isGeminiAvailable()) throw new Error("Gemini is not configured");
@@ -33,7 +34,7 @@ export async function chatWithGemini(
   const ai = new GoogleGenAI({ apiKey });
   const request = ai.models.generateContent({
     model: getGeminiModel(),
-    contents: buildGeminiChatPrompt(buildChatContext(context), messages, question),
+    contents: buildGeminiChatPrompt(buildChatContext(context, profile, question, messages), messages, question),
     config: {
       systemInstruction: buildChatSystemInstruction(context),
       temperature: 0.2,
@@ -54,4 +55,46 @@ export async function chatWithGemini(
   const text = (response.text ?? candidateText)?.trim();
   if (!text) throw new Error("Gemini returned an empty response");
   return ensureContextMention(text, context);
+}
+
+function responseText(response: { text?: string; candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> }): string {
+  return (response.text ?? response.candidates?.[0]?.content?.parts?.map((part) => part.text ?? "").filter(Boolean).join("\n") ?? "").trim();
+}
+
+export async function streamChatWithGemini(
+  context: ChatContext,
+  messages: Array<Pick<ChatMessage, "role" | "content">>,
+  question: string,
+  profile?: ChatProfileContext,
+  abortSignal?: AbortSignal,
+): Promise<AsyncGenerator<string>> {
+  const apiKey = process.env.GEMINI_API_KEY?.trim();
+  if (!apiKey || !isGeminiAvailable()) throw new Error("Gemini is not configured");
+
+  const ai = new GoogleGenAI({ apiKey });
+  const source = await ai.models.generateContentStream({
+    model: getGeminiModel(),
+    contents: buildGeminiChatPrompt(buildChatContext(context, profile, question, messages), messages, question),
+    config: {
+      systemInstruction: buildChatSystemInstruction(context),
+      temperature: 0.2,
+      maxOutputTokens: 1_100,
+      abortSignal,
+      httpOptions: { timeout: 20_000 },
+    },
+  });
+
+  async function* textStream(): AsyncGenerator<string> {
+    let emitted = false;
+    for await (const response of source) {
+      if (abortSignal?.aborted) return;
+      const text = responseText(response);
+      if (!text) continue;
+      emitted = true;
+      yield text;
+    }
+    if (!emitted) throw new Error("Gemini returned an empty response");
+  }
+
+  return textStream();
 }

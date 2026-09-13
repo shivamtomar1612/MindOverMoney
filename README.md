@@ -49,7 +49,7 @@ npm run start
 
 1. Copy `.env.example` to `.env.local`.
 2. Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from your Supabase project. The legacy `NEXT_PUBLIC_SUPABASE_ANON_KEY` remains supported as a fallback.
-3. Apply `supabase/migrations/20260912000000_initial.sql` in the Supabase SQL editor or with the Supabase CLI.
+3. Apply the SQL files in `supabase/migrations` in filename order. The initial migration creates the core product tables; `20260913000000_chat_history.sql` adds private AI conversation history and its Row Level Security policies.
 4. Enable email/password authentication in Supabase Auth.
 
 Only the public URL and anon key are used in the browser. `OPENAI_API_KEY` and `FINANCIAL_API_KEY` remain server-only. If the Supabase client is unavailable, auth and every persistence feature fall back to Demo Mode without blocking the UI.
@@ -75,7 +75,7 @@ npm run build
 
 ## Current scope
 
-The repository contains the responsive landing page, working desktop and mobile navigation, offline demo data, optional Supabase email/password authentication, private profile/watchlist/analysis/portfolio/learning/report persistence with RLS, asset exploration and filtering, Hype Check attention-vs-fundamentals comparisons, a guided decision-readiness simulator, an AI Financial Explainer with an offline lesson fallback, an AI Financial Report Analyzer with demo mode and PDF extraction, a context-aware Mind Over Money AI chatbot, a calculated asset-analysis experience, a localStorage-backed paper portfolio at `/portfolio`, and a six-category financial-literacy center with lesson pages and a 10-question quiz at `/learn`. Authentication and persistence fall back to Demo Mode when Supabase variables are missing; live market feeds and trade execution remain intentionally out of scope.
+The repository contains the responsive landing page, working desktop and mobile navigation, offline demo data, optional Supabase email/password authentication, private profile/watchlist/analysis/portfolio/learning/report persistence with RLS, asset exploration and filtering, Hype Check attention-vs-fundamentals comparisons, a guided decision-readiness simulator, an AI Financial Explainer with an offline lesson fallback, an AI Financial Report Analyzer with demo mode and PDF extraction, and a context-aware Mind Over Money AI chatbot with streamed Gemini responses, Markdown rendering, bounded multi-turn history, retry/regenerate/copy/stop controls, and deterministic offline guidance. Guest chats persist in localStorage; authenticated chat persistence is enabled after the chat-history migration is applied. The product also includes a calculated asset-analysis experience, a localStorage-backed paper portfolio at `/portfolio`, and a six-category financial-literacy center with lesson pages and a 10-question quiz at `/learn`. Authentication and persistence fall back to Demo Mode when Supabase variables are missing; live market feeds and trade execution remain intentionally out of scope.
 
 ## Offline demo data
 
@@ -101,7 +101,7 @@ src/
   lib/
     data/               app-level data helpers
     calculations/       pure financial calculations
-    ai/                 OpenAI providers, prompts, and deterministic fallbacks
+    ai/                 Gemini/OpenAI providers, prompts, and deterministic fallbacks
     supabase/           Supabase configuration and clients
   types/                shared TypeScript types
   data/                 seed and static product data

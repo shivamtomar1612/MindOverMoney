@@ -1,4 +1,7 @@
-import type { ChatContext } from "../../types/chat";
+import { calculateRiskScore, getRiskLevel } from "../calculations/risk.ts";
+import { getAllAssets, getAsset } from "../data/demo-data.ts";
+import type { Asset } from "../../types/asset.ts";
+import type { ChatContext, ChatMessage } from "../../types/chat.ts";
 
 const normalize = (value: string) => value.toLocaleLowerCase("en-IN").replace(/[–—]/g, "-");
 
@@ -17,7 +20,85 @@ export function getChatWelcome(context: ChatContext): string {
   return `You’re currently learning about ${context.title}${context.asset ? ` for ${assetPrefix}` : ""}. Ask me anything about what it means, why it matters, or how it applies here.\n\nThis is educational guidance using the provided demo context—not a live market signal or a buy/sell recommendation.`;
 }
 
-export function getFallbackChatResponse(context: ChatContext, question: string): string {
+function mentionedAssets(text: string): Asset[] {
+  const lowered = normalize(text);
+  return getAllAssets().filter((asset) => {
+    const symbolPattern = new RegExp(`(^|[^a-z0-9])${asset.symbol.toLocaleLowerCase("en-IN")}([^a-z0-9]|$)`);
+    const shortName = asset.name.replace(/\s+(Industries|Consultancy Services|Pharmaceutical Industries)?\s*Ltd\.?$/i, "").toLocaleLowerCase("en-IN");
+    return symbolPattern.test(lowered) || (shortName.length >= 3 && lowered.includes(shortName));
+  }).slice(0, 2);
+}
+
+function assetData(asset: Asset): Record<string, unknown> {
+  return {
+    pe: asset.pe,
+    eps: asset.eps,
+    roe: asset.roe,
+    roce: asset.roce,
+    debtToEquity: asset.debtToEquity,
+    beta: asset.beta,
+    volatility: asset.volatility,
+    riskScore: calculateRiskScore(asset),
+    fundamentalScore: asset.fundamentalScore,
+    growthScore: asset.growthScore,
+    financialHealthScore: asset.financialHealthScore,
+    valuationScore: asset.valuationScore,
+    hypeScore: asset.hypeScore,
+    sector: asset.sector,
+  };
+}
+
+function metricValueForAsset(name: string, asset: Asset): number | string | undefined {
+  const normalizedName = normalize(name);
+  if (normalizedName.includes("p/e") || normalizedName.includes("price-to-earnings")) return asset.pe;
+  if (normalizedName.includes("eps")) return asset.eps;
+  if (normalizedName.includes("roe")) return asset.roe;
+  if (normalizedName.includes("roce")) return asset.roce;
+  if (normalizedName.includes("beta")) return asset.beta;
+  if (normalizedName.includes("volatility")) return asset.volatility;
+  if (normalizedName.includes("debt")) return asset.debtToEquity;
+  if (normalizedName.includes("valuation")) return asset.valuationScore;
+  if (normalizedName.includes("hype")) return asset.hypeScore;
+  if (normalizedName.includes("risk")) return calculateRiskScore(asset);
+  return undefined;
+}
+
+function comparisonResponse(first: Asset, second: Asset): string {
+  return `### Simple answer
+
+Here is a balanced comparison using only the supplied demo dataset:
+
+| Measure | ${first.symbol} | ${second.symbol} |
+|---|---:|---:|
+| P/E | ${first.pe} | ${second.pe} |
+| Fundamentals | ${first.fundamentalScore}/100 | ${second.fundamentalScore}/100 |
+| Growth | ${first.growthScore}/100 | ${second.growthScore}/100 |
+| Valuation | ${first.valuationScore}/100 | ${second.valuationScore}/100 |
+| Calculated risk | ${calculateRiskScore(first)}/100 | ${calculateRiskScore(second)}/100 |
+| Demo Hype Proxy | ${first.hypeScore}/100 | ${second.hypeScore}/100 |
+
+### Beginner takeaway
+
+Neither column is a buy/sell verdict. Compare business quality, price expectations, risk, and what information is still missing before drawing a conclusion.`;
+}
+
+export function getFallbackChatResponse(inputContext: ChatContext, question: string, messages: Array<Pick<ChatMessage, "role" | "content">> = []): string {
+  const referencedAssets = mentionedAssets([...messages.slice(-4).map((message) => message.content), question].join("\n"));
+  if (/compare|versus|\bvs\.?\b/i.test(question) && referencedAssets.length >= 2) return comparisonResponse(referencedAssets[0], referencedAssets[1]);
+
+  const referencedAsset = referencedAssets[0];
+  const selectedAsset = inputContext.asset ? getAsset(inputContext.asset.symbol) : undefined;
+  const activeAsset = referencedAsset ?? selectedAsset;
+  const context: ChatContext = activeAsset
+    ? {
+        ...inputContext,
+        asset: { symbol: activeAsset.symbol, name: activeAsset.name },
+        metric: referencedAsset && inputContext.metric
+          ? { ...inputContext.metric, value: metricValueForAsset(inputContext.metric.name, activeAsset) ?? inputContext.metric.value }
+          : inputContext.metric,
+        data: { ...inputContext.data, ...assetData(activeAsset) },
+      }
+    : inputContext;
   const title = normalize(context.title);
   const asked = normalize(question);
   const assetLabel = context.asset ? `${context.asset.name.replace(/\s+Ltd\.$/, "")} (${context.asset.symbol})` : "the selected context";
@@ -68,7 +149,7 @@ export function getFallbackChatResponse(context: ChatContext, question: string):
   }
 
   if (title.includes("risk") || asked.includes("risk score") || asked.includes("risky")) {
-    return `Simple answer\n\nA risk score is a compact way to summarize selected risk signals; it is not a prediction.\n\nWhy it matters\n\nBreaking risk into volatility, beta, debt, profitability and price movement helps you see what is behind a headline score.\n\nIn this context\n\nThe demo risk score is ${context.metric?.value ?? contextValue(context, "riskScore") ?? "not provided"}. Review the factors rather than treating the number as a verdict.\n\nBeginner takeaway\n\nAsk which risk factors drive the score and whether they fit your plan.`;
+    return `Simple answer\n\nA risk score is a compact way to summarize selected risk signals; it is not a prediction.\n\nWhy it matters\n\nBreaking risk into volatility, beta, debt, profitability and price movement helps you see what is behind a headline score.\n\nIn this context\n\nThe demo risk score is ${context.metric?.value ?? contextValue(context, "riskScore") ?? "not provided"}${activeAsset ? ` (${getRiskLevel(calculateRiskScore(activeAsset))})` : ""}. Review the factors rather than treating the number as a verdict.\n\nBeginner takeaway\n\nAsk which risk factors drive the score and whether they fit your plan.`;
   }
 
   if (title.includes("hype") || asked.includes("hype")) {

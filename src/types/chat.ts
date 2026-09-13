@@ -23,6 +23,24 @@ export type ChatMessage = {
   role: "user" | "assistant";
   content: string;
   timestamp: string;
+  status?: "streaming" | "complete" | "error";
+  provider?: "gemini" | "openai" | "fallback";
+};
+
+export type ChatProfileContext = {
+  experience?: string;
+  riskTolerance?: string;
+  riskScore?: number;
+  investmentHorizon?: string;
+  goal?: string;
+};
+
+export type ChatConversation = {
+  id: string;
+  title: string;
+  context: ChatContext;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ChatRequest = {
